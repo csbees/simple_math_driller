@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://deic4ulwbk2ca"]
+
+[ext_resource type="Script" uid="uid://dlhxl8p2ljk7r" path="res://Scripts/background_script.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://01kix67o4pf5" path="res://Scripts/controller_script.gd" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://33m1461g1pec" path="res://Scripts/problem_script.gd" id="3_1bvp3"]
+[ext_resource type="AudioStream" uid="uid://qdcokogqm78e" path="res://Assets/correct_answer.mp3" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://bgew0uq5j5lwg" path="res://Scripts/answer_wrong_script.gd" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://b8mkrlajkmoab" path="res://Scripts/enter_answer.gd" id="4_lquwl"]
+[ext_resource type="AudioStream" uid="uid://drij7pdsmfy7h" path="res://Assets/wrong_answer.mp3" id="7_272bh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gmqw8"]
+bg_color = Color(0.5019608, 0.6313726, 0.6117647, 1)
+
+[node name="main" type="CanvasGroup" unique_id=711684646]
+
+[node name="Controller" type="Node2D" parent="." unique_id=2085703340]
+script = ExtResource("2_h2yge")
+
+[node name="Background" type="Panel" parent="." unique_id=1721298977]
+offset_left = -1293.0
+offset_top = -831.0
+offset_right = 1305.0
+offset_bottom = 858.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gmqw8")
+script = ExtResource("1_0xm2m")
+
+[node name="Problem" type="RichTextLabel" parent="." unique_id=1574874445]
+offset_left = -1202.0
+offset_top = -751.0
+offset_right = 1211.0
+offset_bottom = -308.0
+tab_size = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_1bvp3")
+
+[node name="Answer_wrong" type="RichTextLabel" parent="." unique_id=1660719618]
+offset_left = -838.0
+offset_top = 290.0
+offset_right = 896.0
+offset_bottom = 640.0
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_7mycd")
+
+[node name="Enter_answer" type="LineEdit" parent="." unique_id=1608110890]
+offset_left = -600.0
+offset_top = -217.0
+offset_right = 617.0
+offset_bottom = 74.0
+alignment = 1
+script = ExtResource("4_lquwl")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1642185834]
+
+[node name="correct" type="AudioStreamPlayer2D" parent="." unique_id=215148220]
+stream = ExtResource("3_h2yge")
+
+[node name="wrong" type="AudioStreamPlayer2D" parent="." unique_id=2078009610]
+stream = ExtResource("7_272bh")
+
+[connection signal="ask_for_input" from="Controller" to="Enter_answer" method="_on_controller_ask_for_input"]
+[connection signal="call_generate_new_answer" from="Controller" to="Problem" method="_on_controller_call_generate_new_answer"]
+[connection signal="change_bg_green" from="Controller" to="Background" method="_on_controller_change_bg_green"]
+[connection signal="change_bg_red" from="Controller" to="Background" method="_on_controller_change_bg_red"]
+[connection signal="change_bg_white" from="Controller" to="Background" method="_on_controller_change_bg_white"]
+[connection signal="change_bg_white" from="Controller" to="Answer_wrong" method="_on_controller_change_bg_white"]
+[connection signal="wrong_answer" from="Controller" to="Answer_wrong" method="_on_controller_wrong_answer"]
+[connection signal="give_controller_answer" from="Problem" to="Controller" method="_on_problem_give_controller_answer"]
+[connection signal="give_control_input" from="Enter_answer" to="Controller" method="_on_enter_answer_give_control_input"]
